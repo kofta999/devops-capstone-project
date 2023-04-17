@@ -132,7 +132,7 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
         self.assertEqual(data["name"], account.name)
-    
+
     def test_read_account_not_found(self):
         """It should return error 404 when reading the account"""
         response = self.client.get(f'{BASE_URL}/0', content_type="application/json")
@@ -143,7 +143,7 @@ class TestAccountService(TestCase):
         account = self._create_accounts(1)[0]
         response = self.client.delete(f'{BASE_URL}/{account.id}', content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-    
+
     def test_delete_account_not_found(self):
         """It should return nothing with status code 204"""
         response = self.client.delete(f'{BASE_URL}/0', content_type="application/json")
@@ -157,10 +157,10 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         updated_account = response.get_json()
         self.assertEqual(updated_account["name"], "Kofta")
-    
+
     def test_update_account_not_found(self):
         """It should return error 404 when updating the account"""
-        account = self._create_accounts(1)[0]
+        self._create_accounts(1)[0]
         response = self.client.put(f'{BASE_URL}/0')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -171,10 +171,10 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
         self.assertEqual(len(data), len(accounts))
-    
+
     def test_list_no_accounts(self):
         """It should return an empty list with 200 OK status code"""
-        response =  self.client.get(f'{BASE_URL}')
+        response = self.client.get(f'{BASE_URL}')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
         self.assertEqual(len(data), 0)
